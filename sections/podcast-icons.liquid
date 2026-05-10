@@ -1,0 +1,645 @@
+<div class="podcast-icons-section color-{{ section.settings.color_scheme | default: 'background-1' }}" 
+     data-hover-shape="{{ section.settings.hover_shape | default: 'circle' }}"
+     style="
+       --podcast-default-bg: {{ section.settings.default_bg | default: '#f3f4f6' }};
+       --podcast-hover-bg: {{ section.settings.hover_bg | default: '#e5e7eb' }};
+       --podcast-active-bg: {{ section.settings.active_bg | default: '#d1d5db' }};
+       --podcast-disabled-bg: {{ section.settings.disabled_bg | default: '#f9fafb' }};
+       --sunny-mask: url('{{ "clawsxcode-shape-4.svg" | asset_url }}');
+       --cookie-mask: url('{{ "clawsxcode-shape-6.svg" | asset_url }}');
+       --sparkle-mask: url('{{ "clawsxcode-shape-49.svg" | asset_url }}');
+       --clover-mask: url('{{ "clawsxcode-shape-53.svg" | asset_url }}');
+       --gem-mask: url('{{ "clawsxcode-shape-76.svg" | asset_url }}');
+       
+       /* Material 3 Motion Tokens - Medium Duration */
+       --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0.0, 0, 1.0);
+       --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1.0);
+       --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0.0, 0.8, 0.15);
+       --md-sys-motion-easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
+       --md-sys-motion-easing-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+       --md-sys-motion-easing-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+       
+       --md-sys-motion-duration-short1: 50ms;
+       --md-sys-motion-duration-short2: 100ms;
+       --md-sys-motion-duration-short3: 150ms;
+       --md-sys-motion-duration-short4: 200ms;
+       --md-sys-motion-duration-medium1: 250ms;
+       --md-sys-motion-duration-medium2: 300ms;
+       --md-sys-motion-duration-medium3: 350ms;
+       --md-sys-motion-duration-medium4: 400ms;
+       --md-sys-motion-duration-long1: 450ms;
+       --md-sys-motion-duration-long2: 500ms;
+       --md-sys-motion-duration-long3: 550ms;
+       --md-sys-motion-duration-long4: 600ms;
+       --md-sys-motion-duration-extra-long1: 700ms;
+       --md-sys-motion-duration-extra-long2: 800ms;
+       --md-sys-motion-duration-extra-long3: 900ms;
+       --md-sys-motion-duration-extra-long4: 1000ms;
+     ">
+  <div class="podcast-icons">
+    {%- if section.settings.spotify_url != blank -%}
+    <a 
+      class="podcast-icon-button"
+      href="{{ section.settings.spotify_url }}"
+      target="_blank"
+      rel="noopener"
+      data-shape="{{ section.settings.spotify_shape | default: 'sunny' }}"
+      aria-label="Listen on Spotify">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
+      </svg>
+    </a>
+    {%- endif -%}
+    
+    {%- if section.settings.apple_url != blank -%}
+    <a 
+      class="podcast-icon-button" 
+      href="{{ section.settings.apple_url }}"
+      target="_blank"
+      rel="noopener"
+      data-shape="{{ section.settings.apple_shape | default: 'cookie' }}"
+      aria-label="Listen on Apple Podcasts">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+    </a>
+    {%- endif -%}
+    
+    {%- if section.settings.youtube_url != blank -%}
+    <a 
+      class="podcast-icon-button"
+      href="{{ section.settings.youtube_url }}"
+      target="_blank"
+      rel="noopener"
+      data-shape="{{ section.settings.youtube_shape | default: 'sunny' }}" 
+      aria-label="Watch on YouTube">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    </a>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+/* Material 3 Enhanced Podcast Icons */
+.podcast-icons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.podcast-icons-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Base Podcast Icon Button with Material 3 Motion */
+.podcast-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  text-decoration: none;
+  color: #000;
+  position: relative;
+  
+  /* Immediate visibility */
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  
+  /* Material 3 Motion - Medium Duration with Emphasized Easing */
+  transition: 
+    transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+    background-color var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard),
+    border-radius var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized-decelerate),
+    -webkit-mask var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized),
+    mask var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized);
+  
+  /* Default background */
+  background: var(--podcast-default-bg, #f3f4f6) !important;
+  border-radius: 40px; /* Start with more rounded */
+  overflow: hidden;
+  
+  /* Enable 3D transforms for better performance */
+  transform-style: preserve-3d;
+  will-change: transform, border-radius, mask;
+}
+
+/* Shape Masks */
+.podcast-icon-button[data-shape="circle"],
+.podcast-icon-button.shape-circle {
+  border-radius: 40px;
+}
+
+.podcast-icon-button[data-shape="sunny"],
+.podcast-icon-button.shape-sunny {
+  border-radius: 0;
+  -webkit-mask: var(--sunny-mask) center/contain no-repeat;
+  mask: var(--sunny-mask) center/contain no-repeat;
+}
+
+.podcast-icon-button[data-shape="cookie"],
+.podcast-icon-button.shape-cookie {
+  border-radius: 0;
+  -webkit-mask: var(--cookie-mask) center/contain no-repeat;
+  mask: var(--cookie-mask) center/contain no-repeat;
+}
+
+.podcast-icon-button[data-shape="sparkle"],
+.podcast-icon-button.shape-sparkle {
+  border-radius: 0;
+  -webkit-mask: var(--sparkle-mask) center/contain no-repeat;
+  mask: var(--sparkle-mask) center/contain no-repeat;
+}
+
+.podcast-icon-button[data-shape="clover"],
+.podcast-icon-button.shape-clover {
+  border-radius: 0;
+  -webkit-mask: var(--clover-mask) center/contain no-repeat;
+  mask: var(--clover-mask) center/contain no-repeat;
+}
+
+.podcast-icon-button[data-shape="gem"],
+.podcast-icon-button.shape-gem {
+  border-radius: 0;
+  -webkit-mask: var(--gem-mask) center/contain no-repeat;
+  mask: var(--gem-mask) center/contain no-repeat;
+}
+
+/* Material 3 Enhanced Hover States */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .podcast-icon-button:hover {
+    background: var(--podcast-hover-bg, #e5e7eb) !important;
+    
+    /* Material 3 Spin + Scale + Radius Reduction */
+    transform: scale(1.1) rotate(15deg);
+    border-radius: 20px; /* Less rounded on hover */
+    
+    /* Enhanced shadow for depth */
+    box-shadow: 
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Specific spin animations for different shapes */
+  .podcast-icon-button.shape-sunny:hover,
+  .podcast-icon-button[data-shape="sunny"]:hover {
+    transform: scale(1.1) rotate(45deg); /* Star spins to points */
+  }
+  
+  .podcast-icon-button.shape-sparkle:hover,
+  .podcast-icon-button[data-shape="sparkle"]:hover {
+    transform: scale(1.1) rotate(90deg); /* Diamond dramatic rotation */
+  }
+  
+  .podcast-icon-button.shape-gem:hover,
+  .podcast-icon-button[data-shape="gem"]:hover {
+    transform: scale(1.1) rotate(30deg); /* Gem subtle shimmer */
+  }
+  
+  .podcast-icon-button.shape-cookie:hover,
+  .podcast-icon-button[data-shape="cookie"]:hover {
+    transform: scale(1.1) rotate(60deg); /* Hexagon to edge */
+  }
+  
+  .podcast-icon-button.shape-clover:hover,
+  .podcast-icon-button[data-shape="clover"]:hover {
+    transform: scale(1.1) rotate(25deg); /* Organic gentle turn */
+  }
+}
+
+/* Focus States */
+.podcast-icon-button:focus {
+  background: var(--podcast-default-bg, #f3f4f6) !important;
+  outline: 2px solid var(--podcast-default-bg, #f3f4f6);
+  outline-offset: 2px;
+  border-radius: 20px;
+}
+
+.podcast-icon-button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* Active States with Material 3 Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .podcast-icon-button:active {
+    transform: scale(0.95) rotate(5deg);
+    background: var(--podcast-active-bg, #d1d5db) !important;
+    border-radius: 30px; /* Between default and hover */
+    transition-duration: var(--md-sys-motion-duration-short4);
+  }
+}
+
+/* Disabled States */
+.podcast-icon-button:disabled {
+  background: var(--podcast-disabled-bg, #f9fafb) !important;
+  opacity: 0.38;
+  pointer-events: none;
+  transform: none;
+  border-radius: 40px;
+}
+
+/* Dynamic hover shape morphing with enhanced motion */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .podcast-icons-section[data-hover-shape="circle"] .podcast-icon-button:hover {
+    border-radius: 20px; /* Less rounded circle */
+    -webkit-mask: none;
+    mask: none;
+    transform: scale(1.1) rotate(180deg); /* Full spin for circle morph */
+  }
+
+  .podcast-icons-section[data-hover-shape="sunny"] .podcast-icon-button:hover {
+    border-radius: 0;
+    -webkit-mask: var(--sunny-mask) center/contain no-repeat;
+    mask: var(--sunny-mask) center/contain no-repeat;
+    transform: scale(1.1) rotate(45deg);
+  }
+
+  .podcast-icons-section[data-hover-shape="cookie"] .podcast-icon-button:hover {
+    border-radius: 0;
+    -webkit-mask: var(--cookie-mask) center/contain no-repeat;
+    mask: var(--cookie-mask) center/contain no-repeat;
+    transform: scale(1.1) rotate(60deg);
+  }
+
+  .podcast-icons-section[data-hover-shape="sparkle"] .podcast-icon-button:hover {
+    border-radius: 0;
+    -webkit-mask: var(--sparkle-mask) center/contain no-repeat;
+    mask: var(--sparkle-mask) center/contain no-repeat;
+    transform: scale(1.1) rotate(90deg);
+  }
+
+  .podcast-icons-section[data-hover-shape="clover"] .podcast-icon-button:hover {
+    border-radius: 0;
+    -webkit-mask: var(--clover-mask) center/contain no-repeat;
+    mask: var(--clover-mask) center/contain no-repeat;
+    transform: scale(1.1) rotate(25deg);
+  }
+
+  .podcast-icons-section[data-hover-shape="gem"] .podcast-icon-button:hover {
+    border-radius: 0;
+    -webkit-mask: var(--gem-mask) center/contain no-repeat;
+    mask: var(--gem-mask) center/contain no-repeat;
+    transform: scale(1.1) rotate(30deg);
+  }
+
+  .podcast-icons-section[data-hover-shape="none"] .podcast-icon-button:hover {
+    /* Keep original shape but still apply radius and subtle rotation */
+    border-radius: 20px;
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+/* Reduced Motion Fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  .podcast-icon-button {
+    transition: 
+      background-color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard),
+      border-radius var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+  }
+  
+  .podcast-icon-button:hover {
+    transform: none;
+    border-radius: 20px;
+  }
+  
+  .podcast-icon-button:active {
+    transform: none;
+  }
+}
+
+/* Enhanced Animation for Initial Load */
+@keyframes material-fade-in {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.8) translateY(20px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0);
+  }
+}
+
+.podcast-icon-button.animate-in {
+  animation: material-fade-in var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized);
+  animation-delay: var(--animation-delay, 0s);
+  animation-fill-mode: both;
+}
+
+.podcast-icon-button:nth-child(1) { --animation-delay: 0ms; }
+.podcast-icon-button:nth-child(2) { --animation-delay: 100ms; }
+.podcast-icon-button:nth-child(3) { --animation-delay: 200ms; }
+
+/* Universal Button Radius Transition */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .button:not(.button--tertiary):not([disabled]),
+  .shopify-challenge__button:not([disabled]),
+  .customer button:not([disabled]),
+  .shopify-payment-button__button {
+    transition: 
+      transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+      border-radius var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized-decelerate);
+    border-radius: 40px; /* Start more rounded */
+  }
+  
+  .button:not(.button--tertiary):not([disabled]):hover,
+  .shopify-challenge__button:not([disabled]):hover,
+  .customer button:not([disabled]):hover,
+  .shopify-payment-button__button:hover {
+    transform: translateY(-0.25rem);
+    border-radius: 20px; /* Less rounded on hover */
+  }
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+  
+  function initPodcastIcons() {
+    console.log('Material 3 Podcast Icons with Enhanced Motion initialized');
+    
+    const buttons = document.querySelectorAll('.podcast-icon-button');
+    const section = document.querySelector('.podcast-icons-section');
+    
+    if (!buttons.length) {
+      console.warn('No podcast buttons found');
+      return;
+    }
+    
+    console.log(`Found ${buttons.length} podcast buttons`);
+    
+    // Apply shapes immediately using CSS classes
+    buttons.forEach((button, index) => {
+      const shape = button.getAttribute('data-shape');
+      
+      if (shape) {
+        console.log(`Button ${index + 1}: Applying shape "${shape}"`);
+        
+        // Remove all shape classes first
+        button.classList.remove('shape-circle', 'shape-sunny', 'shape-cookie', 'shape-sparkle', 'shape-clover', 'shape-gem');
+        
+        // Add the correct shape class
+        button.classList.add(`shape-${shape}`);
+        
+        // Force visibility and remove any conflicting styles
+        button.style.opacity = '1';
+        button.style.width = '48px';
+        button.style.height = '48px';
+        button.style.display = 'inline-flex';
+        button.classList.add('animate-in');
+        
+        console.log(`Applied shape-${shape} class to button ${index + 1}`);
+      } else {
+        console.warn(`Button ${index + 1}: No data-shape attribute found`);
+      }
+    });
+    
+    // Shopify Theme Editor Support
+    if (window.Shopify && window.Shopify.designMode) {
+      console.log('Shopify theme editor detected - enabling live updates');
+      
+      // Force visibility in theme editor
+      buttons.forEach(button => {
+        button.style.opacity = '1';
+        button.style.transform = 'scale(1)';
+        button.classList.add('animate-in');
+      });
+      
+      // Watch for theme editor changes
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes' && 
+              (mutation.attributeName === 'data-shape' || 
+               mutation.attributeName === 'data-hover-shape')) {
+            console.log('Theme editor: Shape attribute changed');
+            // Re-apply shapes after a brief delay
+            setTimeout(() => {
+              buttons.forEach((button, index) => {
+                const newShape = button.getAttribute('data-shape');
+                if (newShape) {
+                  // Remove all shape classes
+                  button.classList.remove('shape-circle', 'shape-sunny', 'shape-cookie', 'shape-sparkle', 'shape-clover', 'shape-gem');
+                  // Add new shape class
+                  button.classList.add(`shape-${newShape}`);
+                  console.log(`Updated button ${index + 1} to shape: ${newShape}`);
+                }
+              });
+            }, 100);
+          }
+        });
+      });
+      
+      // Observe buttons and section
+      buttons.forEach(button => {
+        observer.observe(button, { 
+          attributes: true, 
+          attributeFilter: ['data-shape'] 
+        });
+      });
+      
+      if (section) {
+        observer.observe(section, { 
+          attributes: true, 
+          attributeFilter: ['data-hover-shape'] 
+        });
+      }
+    }
+    
+    // Intersection observer for animations on live site
+    if ('IntersectionObserver' in window) {
+      const intersectionObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry, index) {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('animate-in');
+              console.log(`Animated button ${index + 1} into view`);
+            }, index * 100); // Reduced stagger for M3 timing
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      buttons.forEach(button => {
+        intersectionObserver.observe(button);
+      });
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPodcastIcons);
+  } else {
+    initPodcastIcons();
+  }
+  
+  // Debug function
+  window.debugPodcastIcons = function() {
+    console.log('=== MATERIAL 3 ENHANCED PODCAST ICONS DEBUG ===');
+    const buttons = document.querySelectorAll('.podcast-icon-button');
+    const section = document.querySelector('.podcast-icons-section');
+    
+    console.log(`Buttons found: ${buttons.length}`);
+    console.log(`Section hover shape: ${section ? section.getAttribute('data-hover-shape') : 'No section found'}`);
+    
+    buttons.forEach((button, index) => {
+      const shape = button.getAttribute('data-shape');
+      const computed = window.getComputedStyle(button);
+      console.log(`Button ${index + 1}:`);
+      console.log(`  - Shape: ${shape}`);
+      console.log(`  - Classes: ${button.className}`);
+      console.log(`  - Mask Image: ${computed.maskImage || computed.webkitMaskImage}`);
+      console.log(`  - Background: ${computed.backgroundColor}`);
+      console.log(`  - Border Radius: ${computed.borderRadius}`);
+      console.log(`  - Transition: ${computed.transition}`);
+    });
+  };
+})();
+</script>
+
+{%- schema -%}
+{
+  "name": "Podcast Icons",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Platform URLs"
+    },
+    {
+      "type": "url",
+      "id": "spotify_url",
+      "label": "Spotify URL",
+      "info": "Full URL to your Spotify podcast"
+    },
+    {
+      "type": "url", 
+      "id": "apple_url",
+      "label": "Apple Podcasts URL",
+      "info": "Full URL to your Apple Podcasts show"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url", 
+      "label": "YouTube URL",
+      "info": "Full URL to your YouTube channel or playlist"
+    },
+    {
+      "type": "header",
+      "content": "Material 3 Icon Shapes"
+    },
+    {
+      "type": "select",
+      "id": "spotify_shape",
+      "label": "Spotify Icon Shape",
+      "options": [
+        { "value": "circle", "label": "Circle" },
+        { "value": "sunny", "label": "Sunny (4-point star)" },
+        { "value": "cookie", "label": "Cookie (hexagon)" },
+        { "value": "sparkle", "label": "Sparkle (diamond)" },
+        { "value": "clover", "label": "Clover (organic)" },
+        { "value": "gem", "label": "Gem (crystal)" }
+      ],
+      "default": "sunny"
+    },
+    {
+      "type": "select",
+      "id": "apple_shape",
+      "label": "Apple Icon Shape",
+      "options": [
+        { "value": "circle", "label": "Circle" },
+        { "value": "sunny", "label": "Sunny (4-point star)" },
+        { "value": "cookie", "label": "Cookie (hexagon)" },
+        { "value": "sparkle", "label": "Sparkle (diamond)" },
+        { "value": "clover", "label": "Clover (organic)" },
+        { "value": "gem", "label": "Gem (crystal)" }
+      ],
+      "default": "cookie"
+    },
+    {
+      "type": "select",
+      "id": "youtube_shape",
+      "label": "YouTube Icon Shape",
+      "options": [
+        { "value": "circle", "label": "Circle" },
+        { "value": "sunny", "label": "Sunny (4-point star)" },
+        { "value": "cookie", "label": "Cookie (hexagon)" },
+        { "value": "sparkle", "label": "Sparkle (diamond)" },
+        { "value": "clover", "label": "Clover (organic)" },
+        { "value": "gem", "label": "Gem (crystal)" }
+      ],
+      "default": "sunny"
+    },
+    {
+      "type": "select",
+      "id": "hover_shape",
+      "label": "Hover Shape Transform",
+      "options": [
+        { "value": "circle", "label": "Circle" },
+        { "value": "sunny", "label": "Sunny Star" },
+        { "value": "cookie", "label": "Cookie Hexagon" },
+        { "value": "sparkle", "label": "Sparkle Diamond" },
+        { "value": "clover", "label": "Clover Organic" },
+        { "value": "gem", "label": "Gem Crystal" },
+        { "value": "none", "label": "No hover transform" }
+      ],
+      "default": "circle",
+      "info": "Shape that all icons transform to on hover"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "color",
+      "id": "default_bg",
+      "label": "Default Background",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "color",
+      "id": "hover_bg",
+      "label": "Hover Background", 
+      "default": "#e5e7eb"
+    },
+    {
+      "type": "color",
+      "id": "active_bg",
+      "label": "Active Background",
+      "default": "#d1d5db"
+    },
+    {
+      "type": "color",
+      "id": "disabled_bg",
+      "label": "Disabled Background",
+      "default": "#f9fafb"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Podcast Icons",
+      "settings": {
+        "spotify_shape": "sunny",
+        "apple_shape": "cookie",
+        "youtube_shape": "sunny",
+        "hover_shape": "circle"
+      }
+    }
+  ]
+}
+{%- endschema -%}

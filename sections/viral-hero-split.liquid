@@ -1,0 +1,606 @@
+<!-- sections/viral-hero-split.liquid -->
+<div class="viral-hero-split color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="viral-hero-split__content">
+      
+      <!-- Video Column -->
+      <div class="viral-hero-split__video-wrapper">
+        <div class="viral-hero-split__video-container">
+          {% if section.settings.video != blank %}
+            <video 
+              class="viral-hero-split__video"
+              id="viral-video-{{ section.id }}"
+              playsinline 
+              loop 
+              muted
+              preload="metadata" 
+              {% if section.settings.poster_image != blank %}
+                poster="{{ section.settings.poster_image | image_url: width: 800 }}"
+              {% elsif section.settings.video.preview_image != blank %}
+                poster="{{ section.settings.video.preview_image | image_url: width: 800 }}"
+              {% endif %}>
+              
+              {% for source in section.settings.video.sources %}
+                <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% endfor %}
+              
+              {% if section.settings.poster_image != blank %}
+                {{ section.settings.poster_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: 'TikTok Video' }}
+              {% elsif section.settings.video.preview_image != blank %}
+                {{ section.settings.video.preview_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: 'TikTok Video' }}
+              {% endif %}
+            </video>
+            
+            <!-- Play Button Overlay -->
+            <button class="viral-hero-split__play-button" id="play-button-{{ section.id }}" aria-label="Play video">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M15 10L30 20L15 30V10Z" fill="currentColor"/>
+              </svg>
+            </button>
+            
+            <!-- View Count Badge -->
+            {% if section.settings.view_count != blank %}
+              <div class="viral-hero-split__view-count">
+                👁️ {{ section.settings.view_count }}
+              </div>
+            {% endif %}
+            
+          {% else %}
+            <div class="viral-hero-split__placeholder">
+              <p>Select a video from your library</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Product Info Column -->
+      <div class="viral-hero-split__info">
+        
+        <!-- TikTok Badge -->
+        {% if section.settings.show_tiktok_badge %}
+          <div class="viral-hero-split__badge">
+            <span class="viral-hero-split__badge-icon">🎵</span>
+            <div class="viral-hero-split__badge-text">
+              <div class="viral-hero-split__badge-title">{{ section.settings.badge_title }}</div>
+              {% if section.settings.view_count != blank %}
+                <div class="viral-hero-split__badge-views">{{ section.settings.view_count }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+        
+        <!-- Product Title -->
+        {% if section.settings.product != blank %}
+          <h2 class="viral-hero-split__title">
+            <a href="{{ section.settings.product.url }}">{{ section.settings.product.title }}</a>
+          </h2>
+          
+          <!-- Product Variant/Type -->
+          {% if section.settings.product_subtitle != blank %}
+            <div class="viral-hero-split__subtitle">
+              {{ section.settings.product_subtitle }}
+            </div>
+          {% endif %}
+          
+          <!-- Price -->
+          <div class="viral-hero-split__price">
+            <span class="viral-hero-split__price-current">
+              {{ section.settings.product.price | money }}
+            </span>
+            {% if section.settings.product.compare_at_price > section.settings.product.price %}
+              <span class="viral-hero-split__price-compare">
+                {{ section.settings.product.compare_at_price | money }}
+              </span>
+            {% endif %}
+          </div>
+          
+        {% else %}
+          <h2 class="viral-hero-split__title">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+        
+        <!-- Limited Batch Alert -->
+        {% if section.settings.show_limited_badge %}
+          <div class="viral-hero-split__limited-alert">
+            <div class="viral-hero-split__limited-header">
+              <span class="viral-hero-split__limited-badge">Limited Batch</span>
+              {% if section.settings.limited_series != blank %}
+                <span class="viral-hero-split__limited-series">{{ section.settings.limited_series }}</span>
+              {% endif %}
+            </div>
+            {% if section.settings.limited_text != blank %}
+              <p class="viral-hero-split__limited-text">{{ section.settings.limited_text }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        
+        <!-- Description -->
+        {% if section.settings.description != blank %}
+          <div class="viral-hero-split__description rte">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+        
+        <!-- CTA Button -->
+        {% if section.settings.button_label != blank %}
+          <div class="viral-hero-split__button">
+            <a href="{{ section.settings.button_link }}" 
+               class="button button--primary">
+              {{ section.settings.button_label }}
+            </a>
+          </div>
+        {% endif %}
+        
+        <!-- TikTok Link -->
+        {% if section.settings.tiktok_url != blank %}
+          <a href="{{ section.settings.tiktok_url }}" 
+             class="viral-hero-split__tiktok-link"
+             target="_blank"
+             rel="noopener">
+            Watch full TikTok video →
+          </a>
+        {% endif %}
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<style>
+  .viral-hero-split {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .viral-hero-split__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media screen and (min-width: 990px) {
+    .viral-hero-split__content {
+      grid-template-columns: 400px 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+  }
+  
+  /* Video Column */
+  .viral-hero-split__video-wrapper {
+    position: relative;
+  }
+  
+  .viral-hero-split__video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9/16;
+    max-height: 600px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .viral-hero-split__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+  
+  .viral-hero-split__play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: #69e7c1;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+    color: #121212;
+  }
+  
+  .viral-hero-split__play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 4px 20px rgba(105, 231, 193, 0.4);
+  }
+  
+  .viral-hero-split__play-button.is-playing {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .viral-hero-split__view-count {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1;
+  }
+  
+  .viral-hero-split__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  /* Product Info Column */
+  .viral-hero-split__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .viral-hero-split__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #000;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid #00F2EA;
+    width: fit-content;
+  }
+  
+  .viral-hero-split__badge-icon {
+    font-size: 18px;
+  }
+  
+  .viral-hero-split__badge-title {
+    font-weight: 600;
+  }
+  
+  .viral-hero-split__badge-views {
+    font-size: 12px;
+    color: #00F2EA;
+  }
+  
+  .viral-hero-split__title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .viral-hero-split__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .viral-hero-split__title a:hover {
+    color: #69e7c1;
+  }
+  
+  .viral-hero-split__subtitle {
+    font-size: 14px;
+    color: rgba(var(--color-foreground), 0.6);
+    font-weight: 500;
+  }
+  
+  .viral-hero-split__price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .viral-hero-split__price-current {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  
+  .viral-hero-split__price-compare {
+    font-size: 18px;
+    color: rgba(var(--color-foreground), 0.5);
+    text-decoration: line-through;
+  }
+  
+  /* Limited Batch Alert */
+  .viral-hero-split__limited-alert {
+    background: #FFF5F5;
+    border: 2px solid #FF0050;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .viral-hero-split__limited-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .viral-hero-split__limited-badge {
+    display: inline-block;
+    background: #FF0050;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .viral-hero-split__limited-series {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .viral-hero-split__limited-text {
+    margin: 0;
+    font-size: 13px;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+  
+  .viral-hero-split__description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(var(--color-foreground), 0.8);
+  }
+  
+  .viral-hero-split__button {
+    margin-top: 0.5rem;
+  }
+  
+  .viral-hero-split__button .button {
+    width: 100%;
+  }
+  
+  .viral-hero-split__tiktok-link {
+    display: block;
+    text-align: center;
+    color: #00F2EA;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .viral-hero-split__tiktok-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const video = document.getElementById('viral-video-{{ section.id }}');
+  const playButton = document.getElementById('play-button-{{ section.id }}');
+  
+  if (video && playButton) {
+    // Play button click
+    playButton.addEventListener('click', function() {
+      video.muted = false;
+      video.play();
+      playButton.classList.add('is-playing');
+    });
+    
+    // Video click to pause/play
+    video.addEventListener('click', function() {
+      if (video.paused) {
+        video.play();
+        playButton.classList.add('is-playing');
+      } else {
+        video.pause();
+        playButton.classList.remove('is-playing');
+      }
+    });
+    
+    // Show play button when video ends
+    video.addEventListener('ended', function() {
+      playButton.classList.remove('is-playing');
+    });
+    
+    // Autoplay muted on viewport
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.muted = true;
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(video);
+    }
+  }
+});
+</script>
+
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Viral Hero Split",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video Settings"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Upload your viral TikTok video"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster Image"
+    },
+    {
+      "type": "text",
+      "id": "view_count",
+      "label": "View Count",
+      "default": "10.6K views",
+      "info": "Display view count on video"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok Video URL",
+      "info": "Link to full TikTok video"
+    },
+    {
+      "type": "header",
+      "content": "TikTok Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tiktok_badge",
+      "label": "Show TikTok badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_title",
+      "label": "Badge title",
+      "default": "TikTok Favorite"
+    },
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Used if no product selected"
+    },
+    {
+      "type": "text",
+      "id": "product_subtitle",
+      "label": "Product subtitle",
+      "default": "Series 04",
+      "info": "e.g., Series 04, Limited Edition"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Limited Batch"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_limited_badge",
+      "label": "Show limited batch alert",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "limited_series",
+      "label": "Series",
+      "default": "Series 04"
+    },
+    {
+      "type": "text",
+      "id": "limited_text",
+      "label": "Limited text",
+      "default": "Limited production run • Only 47 keyboards remaining"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "background-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Viral Hero Split"
+    }
+  ]
+}
+{% endschema %}

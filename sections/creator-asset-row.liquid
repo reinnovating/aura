@@ -1,0 +1,161 @@
+<div class="asset-row" style="background: #1a1a1a; padding: 40px 20px; margin: 32px 0;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    {% if section.settings.campaign_label != blank %}
+      <div style="display: inline-block; background: #69e7c1; color: #121212; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;">
+        {{ section.settings.campaign_label }}
+      </div>
+    {% endif %}
+    
+    {% if section.settings.title != blank %}
+      <h2 style="font-family: Rockwell, Verdana, Geneva, sans-serif; font-size: 28px; margin: 0 0 8px; color: #fff;">
+        {{ section.settings.title }}
+      </h2>
+    {% endif %}
+    
+    {% if section.settings.description != blank %}
+      <p style="font-size: 15px; color: #fff; margin: 0 0 24px; line-height: 1.6;">
+        {{ section.settings.description }}
+      </p>
+    {% endif %}
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+      
+      {% if section.settings.photo_url != blank %}
+        <div class="asset-card" style="background: #000; border-radius: 8px; padding: 20px;">
+          <h3 style="font-size: 16px; margin: 0 0 8px; color: #69e7c1;">Photo Asset</h3>
+          {% if section.settings.photo_specs != blank %}
+            <p style="font-size: 13px; color: #666; margin: 0 0 16px;">
+              {{ section.settings.photo_specs }}
+            </p>
+          {% endif %}
+          
+          <a href="{{ section.settings.photo_url }}" target="_blank" style="display: block; text-decoration: none;">
+            <img src="{{ section.settings.photo_url }}" 
+                 alt="{{ section.settings.title | default: 'Photo Asset' }}" 
+                 style="width: 100%; margin: 0 auto; display: block; border-radius: 8px; border: 2px solid #333;">
+          </a>
+          
+          <p style="font-size: 11px; color: #666; margin: 12px 0 16px; text-align: center;">
+            ⤓ hold image, then "Add to Photos"
+          </p>
+          
+          <a href="{{ section.settings.photo_url }}" 
+             target="_blank"
+             style="display: block; width: 100%; background: #69e7c1; color: #121212; text-decoration: none; padding: 14px; border-radius: 50px; font-weight: 500; font-size: 13px; letter-spacing: 1px; text-align: center; font-family: Verdana, Geneva, sans-serif;">
+            download
+          </a>
+        </div>
+      {% endif %}
+      
+      {% if section.settings.video_url != blank %}
+        <div class="asset-card" style="background: #000; border-radius: 8px; padding: 20px;">
+          <h3 style="font-size: 16px; margin: 0 0 8px; color: #69e7c1;">Video Asset</h3>
+          {% if section.settings.video_specs != blank %}
+            <p style="font-size: 13px; color: #666; margin: 0 0 16px;">
+              {{ section.settings.video_specs }}
+            </p>
+          {% endif %}
+          
+          <video autoplay loop muted playsinline
+                 style="width: 100%; margin: 0 auto; display: block; border-radius: 8px; border: 2px solid #333;">
+            <source src="{{ section.settings.video_url }}" type="video/mp4">
+          </video>
+          
+          <p style="font-size: 11px; color: #666; margin: 12px 0 16px; text-align: center;">
+            ⤓ download, tap share icon, "Save Video"
+          </p>
+          
+          <a href="{{ section.settings.video_url }}" 
+             target="_blank"
+             style="display: block; width: 100%; background: #69e7c1; color: #121212; text-decoration: none; padding: 14px; border-radius: 50px; font-weight: 500; font-size: 13px; letter-spacing: 1px; text-align: center; font-family: Verdana, Geneva, sans-serif;">
+            download
+          </a>
+        </div>
+      {% endif %}
+      
+    </div>
+    
+    {% if section.settings.release_date != blank %}
+      <p style="font-size: 12px; color: #666; margin: 24px 0 0; text-align: center;">
+        Released {{ section.settings.release_date }}
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Creator Asset Row",
+  "settings": [
+    {
+      "type": "text",
+      "id": "campaign_label",
+      "label": "Campaign Label",
+      "placeholder": "NEW"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Asset Collection Title",
+      "default": "The Ultra Violet"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Photo Asset"
+    },
+    {
+      "type": "url",
+      "id": "photo_url",
+      "label": "Photo URL"
+    },
+    {
+      "type": "text",
+      "id": "photo_filename",
+      "label": "Photo Download Filename"
+    },
+    {
+      "type": "text",
+      "id": "photo_specs",
+      "label": "Photo Specs"
+    },
+    {
+      "type": "header",
+      "content": "Video Asset"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL"
+    },
+    {
+      "type": "text",
+      "id": "video_filename",
+      "label": "Video Download Filename"
+    },
+    {
+      "type": "text",
+      "id": "video_specs",
+      "label": "Video Specs"
+    },
+    {
+      "type": "header",
+      "content": "Meta"
+    },
+    {
+      "type": "text",
+      "id": "release_date",
+      "label": "Release Date"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Creator Asset Row"
+    }
+  ]
+}
+{% endschema %}

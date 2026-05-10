@@ -1,0 +1,73 @@
+<script>
+  (function () {
+    var STYLE_ID = 'cxc-popup-fix';
+    var HOST_ID  = 'app-embed-container-827229';
+    var css = `
+      /* Close button black circle: +30% (28px → 36.4px) — all screen sizes */
+      ._formContainerCloseButtonPosition_1q1d2_282 {
+        width: 36.4px !important;
+        height: 36.4px !important;
+      }
+      ._formCloseButton_1684x_4 {
+        width: 36.4px !important;
+        height: 36.4px !important;
+        min-width: 36.4px !important;
+        min-height: 36.4px !important;
+      }
+      ._formCloseButton_1684x_4 svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+      /* Mobile under 420px: fix overflow + cap image at 20vh */
+      @media (max-width: 419px) {
+        ._formContainer_1q1d2_30._grid_1q1d2_148 {
+          min-width: 0 !important;
+          width: min(335px, calc(100vw - 32px)) !important;
+          max-width: calc(100vw - 32px) !important;
+          grid-template-columns: min(335px, calc(100vw - 32px)) !important;
+          max-height: 90vh !important;
+          overflow-y: auto !important;
+        }
+        ._gridItem_1q1d2_172._imageLoaded_1q1d2_237 {
+          height: 20vh !important;
+          max-height: 20vh !important;
+          min-height: unset !important;
+        }
+        ._grid_1q1d2_148 {
+          grid-template-rows: 20vh auto !important;
+        }
+        ._overlay_1q1d2_100 {
+          padding: 16px !important;
+          overflow-y: auto !important;
+          align-items: flex-start !important;
+        }
+      }
+    `;
+    function inject() {
+      var host = document.getElementById(HOST_ID);
+      if (!host || !host.shadowRoot) return false;
+      if (host.shadowRoot.querySelector('#' + STYLE_ID)) return true;
+      var style = document.createElement('style');
+      style.id = STYLE_ID;
+      style.textContent = css;
+      host.shadowRoot.appendChild(style);
+      return true;
+    }
+    function watchShadowRoot() {
+      var host = document.getElementById(HOST_ID);
+      if (!host || !host.shadowRoot) return;
+      var shadowObserver = new MutationObserver(function() {
+        inject();
+      });
+      shadowObserver.observe(host.shadowRoot, { childList: true, subtree: true });
+    }
+    var bodyObserver = new MutationObserver(function() {
+      if (inject()) watchShadowRoot();
+    });
+    bodyObserver.observe(document.body, { childList: true, subtree: true });
+    watchShadowRoot();
+    document.addEventListener('DOMContentLoaded', function() { inject(); watchShadowRoot(); });
+    setTimeout(function() { inject(); watchShadowRoot(); }, 1000);
+    setTimeout(function() { inject(); watchShadowRoot(); }, 3000);
+  })();
+</script>

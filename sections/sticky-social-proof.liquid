@@ -1,0 +1,362 @@
+<!-- sections/sticky-social-proof.liquid -->
+<div class="sticky-social-proof-wrapper" id="sticky-social-proof-{{ section.id }}">
+  <div class="sticky-social-proof color-{{ section.settings.color_scheme }}" id="sticky-bar-{{ section.id }}">
+    <div class="page-width">
+      <div class="sticky-social-proof__content">
+        
+        <!-- Left Side: Icon + Text -->
+        <div class="sticky-social-proof__info">
+          {% if section.settings.icon != blank %}
+            <span class="sticky-social-proof__icon">{{ section.settings.icon }}</span>
+          {% endif %}
+          
+          <div class="sticky-social-proof__text">
+            {% if section.settings.title != blank %}
+              <div class="sticky-social-proof__title">
+                {{ section.settings.title }}
+              </div>
+            {% endif %}
+            {% if section.settings.subtitle != blank %}
+              <div class="sticky-social-proof__subtitle">
+                {{ section.settings.subtitle }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <!-- Right Side: CTA Button -->
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <div class="sticky-social-proof__cta">
+            <a href="{{ section.settings.button_link }}" 
+               class="button button--small{% if section.settings.button_style == 'secondary' %} button--secondary{% endif %}"
+               target="_blank"
+               rel="noopener noreferrer">
+              {{ section.settings.button_label }}
+            </a>
+          </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sticky-social-proof-wrapper {
+    position: relative;
+    height: auto;
+    z-index: 10;
+  }
+  
+  .sticky-social-proof {
+    background: rgb(var(--color-background));
+    padding: 12px 0;
+    border-radius: 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    opacity: 1;
+  }
+  
+  /* Default gradient for inverse/dark schemes */
+  .sticky-social-proof.color-inverse,
+  .sticky-social-proof.color-accent-1,
+  .sticky-social-proof.color-accent-2 {
+    background: linear-gradient(135deg, rgb(var(--color-background)) 0%, rgba(var(--color-background), 0.9) 100%);
+  }
+  
+  .sticky-social-proof.is-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    animation: slideDown 0.3s ease;
+  }
+  
+  .sticky-social-proof.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .sticky-social-proof__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 2rem;
+  }
+  
+  .sticky-social-proof__info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+  
+  .sticky-social-proof__icon {
+    font-size: 24px;
+    line-height: 1;
+  }
+  
+  .sticky-social-proof__text {
+    flex: 1;
+  }
+  
+  .sticky-social-proof__title {
+    color: rgb(var(--color-foreground));
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  
+  .sticky-social-proof__subtitle {
+    color: #69e7c1;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  
+  .sticky-social-proof__cta .button {
+    background: #69e7c1;
+    color: #121212;
+    border: none;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  .sticky-social-proof__cta .button:hover {
+    background: #5dd4af;
+  }
+  
+  .sticky-social-proof__cta .button--secondary {
+    background: transparent;
+    color: #69e7c1;
+    border: 2px solid #69e7c1;
+  }
+  
+  .sticky-social-proof__cta .button--secondary:hover {
+    background: rgba(105, 231, 193, 0.1);
+  }
+  
+  @media screen and (max-width: 749px) {
+    .sticky-social-proof__content {
+      padding: 0 1rem;
+      gap: 0.5rem;
+    }
+    
+    .sticky-social-proof__title {
+      font-size: 12px;
+    }
+    
+    .sticky-social-proof__subtitle {
+      font-size: 11px;
+    }
+    
+    .sticky-social-proof__icon {
+      font-size: 20px;
+    }
+    
+    .sticky-social-proof__cta .button {
+      padding: 6px 14px;
+      font-size: 12px;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const wrapper = document.getElementById('sticky-social-proof-{{ section.id }}');
+  const bar = document.getElementById('sticky-bar-{{ section.id }}');
+  
+  if (!wrapper || !bar) return;
+  
+  let isSticky = false;
+  let shouldHide = false;
+  let lastScrollY = window.pageYOffset;
+  let scrollingUp = false;
+  
+  // Create placeholder to prevent layout shift when bar becomes fixed
+  const placeholder = document.createElement('div');
+  placeholder.style.height = bar.offsetHeight + 'px';
+  placeholder.style.display = 'none';
+  wrapper.parentNode.insertBefore(placeholder, wrapper.nextSibling);
+  
+  // Scroll direction detection
+  function handleScroll() {
+    const currentScrollY = window.pageYOffset;
+    scrollingUp = currentScrollY < lastScrollY;
+    lastScrollY = currentScrollY;
+    
+    // Hide when scrolling up and sticky is active
+    if (isSticky && scrollingUp && !shouldHide) {
+      bar.classList.add('is-hidden');
+    } else if (isSticky && !scrollingUp && !shouldHide) {
+      bar.classList.remove('is-hidden');
+    }
+  }
+  
+  // Throttle scroll handler
+  let scrollTimeout;
+  window.addEventListener('scroll', function() {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout);
+    }
+    scrollTimeout = window.requestAnimationFrame(function() {
+      handleScroll();
+    });
+  });
+  
+  // Intersection Observer for the wrapper (when it enters viewport)
+  const wrapperObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+        // Wrapper has scrolled past top of viewport
+        if (!isSticky) {
+          isSticky = true;
+          bar.classList.add('is-sticky');
+          placeholder.style.display = 'block';
+          // Don't hide immediately on becoming sticky
+          if (!scrollingUp) {
+            bar.classList.remove('is-hidden');
+          }
+        }
+      } else if (entry.isIntersecting) {
+        // Wrapper is back in viewport
+        if (isSticky) {
+          isSticky = false;
+          bar.classList.remove('is-sticky');
+          bar.classList.remove('is-hidden');
+          placeholder.style.display = 'none';
+        }
+      }
+    });
+  }, { threshold: 0 });
+  
+  wrapperObserver.observe(wrapper);
+  
+  // Observer for footer (to hide bar before footer)
+  const footer = document.querySelector('footer, .footer, [role="contentinfo"]');
+  if (footer) {
+    const footerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Footer is visible, hide the bar
+          shouldHide = true;
+          bar.classList.add('is-hidden');
+        } else {
+          // Footer is not visible, show the bar if it should be sticky
+          shouldHide = false;
+          if (isSticky && !scrollingUp) {
+            bar.classList.remove('is-hidden');
+          }
+        }
+      });
+    }, { 
+      threshold: 0,
+      rootMargin: '100px 0px 0px 0px' // Start hiding 100px before footer appears
+    });
+    
+    footerObserver.observe(footer);
+  }
+  
+  // Clean up on theme editor changes
+  if (window.Shopify && window.Shopify.designMode) {
+    document.addEventListener('shopify:section:unload', function(event) {
+      if (event.detail.sectionId === '{{ section.id }}') {
+        wrapperObserver.disconnect();
+        if (footer) footerObserver.disconnect();
+        placeholder.remove();
+      }
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Sticky Social Proof",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "icon",
+      "label": "Icon",
+      "default": "🔥",
+      "info": "Emoji or icon"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Viral on TikTok"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "10.6K+ creators watching"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Watch Video"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary (Outline)" }
+      ],
+      "default": "primary",
+      "label": "Button style"
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "inverse"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Social Proof",
+      "settings": {
+        "color_scheme": "inverse"
+      }
+    }
+  ]
+}
+{% endschema %}
